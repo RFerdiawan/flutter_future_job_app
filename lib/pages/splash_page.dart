@@ -5,19 +5,18 @@ import 'package:future_job/pages/onboarding_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
-
   @override
   _SplashPageState createState() => _SplashPageState();
 }
 
 class _SplashPageState extends State<SplashPage> {
   @override
-  void initState(){
+  void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 3), (){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => OnboardingPage()));
+    Timer(Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => OnboardingPage()));
     });
   }
 
@@ -31,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
           children: [
             Container(
               child: Image.asset(
-                  'assets/logo.png',
+                'assets/logo.png',
                 height: 76,
                 width: 59,
               ),
@@ -39,12 +38,13 @@ class _SplashPageState extends State<SplashPage> {
             SizedBox(
               height: 50,
             ),
-            Text('FUTUREJOB',
+            Text(
+              'FUTUREJOB',
               style: GoogleFonts.poppins(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 32,
-             ),
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 32,
+              ),
             ),
           ],
         ),

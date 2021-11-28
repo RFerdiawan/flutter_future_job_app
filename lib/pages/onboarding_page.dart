@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OnboardingPage extends StatelessWidget {
-  const OnboardingPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,10 +9,10 @@ class OnboardingPage extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/bg.png'),
-                  fit: BoxFit.cover,
-                ),
+              image: DecorationImage(
+                image: AssetImage('assets/bg.png'),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Padding(
@@ -22,7 +20,8 @@ class OnboardingPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Build Your Next \nFuture Career Like \na Master',
+                Text(
+                  'Build Your Next \nFuture Career Like \na Master',
                   style: GoogleFonts.poppins(
                     fontSize: 32,
                     fontWeight: FontWeight.w400,
@@ -32,11 +31,9 @@ class OnboardingPage extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Text('18.000 jobs available',
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: 14
-                  ),
+                Text(
+                  '18.000 jobs available',
+                  style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
                 ),
                 Center(
                   child: Padding(
@@ -45,21 +42,21 @@ class OnboardingPage extends StatelessWidget {
                       width: 200,
                       height: 45,
                       child: TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(66)
-                          )
-                        ),
-                          onPressed: (){},
-                          child: Text('Get Started',
-                          style: GoogleFonts.poppins(
-                            color: Color(0xff4141A4),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          )
-                      ),
+                          style: TextButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(66))),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/sign-up');
+                          },
+                          child: Text(
+                            'Get Started',
+                            style: GoogleFonts.poppins(
+                              color: Color(0xff4141A4),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )),
                     ),
                   ),
                 ),
@@ -70,26 +67,26 @@ class OnboardingPage extends StatelessWidget {
                       width: 200,
                       height: 45,
                       child: OutlinedButton(
-                          onPressed: (){},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/sign-in');
+                          },
                           style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(66)
-                            ),
-                            side: BorderSide(color: Colors.white,
-                            )
-                          ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(66)),
+                              side: BorderSide(
+                                color: Colors.white,
+                              )),
                           child: Text(
-                              'Sign In',
+                            'Sign In',
                             style: GoogleFonts.poppins(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
                             ),
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
