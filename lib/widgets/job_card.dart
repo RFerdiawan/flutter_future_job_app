@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:future_job/pages/second_homepage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class JobCard extends StatelessWidget {
@@ -10,7 +11,13 @@ class JobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/secondhome');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SecondHomepage(
+                      jobTitleHome: text,
+                      imageUrl: imageUrl,
+                    )));
       },
       child: Container(
         height: 200,

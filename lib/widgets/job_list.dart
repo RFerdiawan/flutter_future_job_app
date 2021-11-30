@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:future_job/pages/detail_page.dart';
 import 'package:future_job/theme.dart';
 
 class JobList extends StatelessWidget {
@@ -11,40 +12,51 @@ class JobList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Image.asset(
-          imageUrl,
-          width: 44,
-          height: 45,
-        ),
-        SizedBox(
-          width: 26,
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                job,
-                style: jobTextStyle,
-              ),
-              Text(
-                company,
-                style: companyTextStyle,
-              ),
-              SizedBox(
-                height: 18,
-              ),
-              Divider(
-                color: Color(0xffecedf1),
-                thickness: 1,
-              )
-            ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailPage(
+                    // jobTitle: text,
+                    // imageUrl: imageUrl,
+                    )));
+      },
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(
+            imageUrl,
+            width: 44,
+            height: 45,
           ),
-        )
-      ],
+          SizedBox(
+            width: 26,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  job,
+                  style: jobTextStyle,
+                ),
+                Text(
+                  company,
+                  style: companyTextStyle,
+                ),
+                SizedBox(
+                  height: 18,
+                ),
+                Divider(
+                  color: Color(0xffecedf1),
+                  thickness: 1,
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

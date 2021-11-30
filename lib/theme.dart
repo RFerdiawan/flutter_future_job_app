@@ -30,3 +30,21 @@ TextStyle companyTextStyle = GoogleFonts.poppins(
   fontSize: 14,
   fontWeight: FontWeight.w400,
 );
+
+TextStyle jobTTextStyle = GoogleFonts.poppins(
+  color: Color(0xffffffff),
+  fontSize: 24,
+  fontWeight: FontWeight.w600,
+);
+
+TextStyle jobATextStyle = GoogleFonts.poppins(
+  color: Color(0xffffffff),
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+);
+
+TextStyle jobApplyTextStyle = GoogleFonts.poppins(
+  color: Color(0xff272c2f),
+  fontSize: 20,
+  fontWeight: FontWeight.w600,
+);

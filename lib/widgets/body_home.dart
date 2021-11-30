@@ -8,7 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 Widget bodyHome() {
   return Container(
     child: Padding(
-      padding: const EdgeInsets.only(left: 24),
+      padding: const EdgeInsets.only(
+        left: 24,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -79,7 +81,10 @@ Widget bodyHome() {
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 16),
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 24,
+                ),
                 child: JobList(
                   company: 'Google',
                   job: 'Front-End Developer',
@@ -87,7 +92,10 @@ Widget bodyHome() {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 16),
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 24,
+                ),
                 child: JobList(
                   company: 'Instagram',
                   job: 'UI Designer',
@@ -95,7 +103,10 @@ Widget bodyHome() {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 16),
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 24,
+                ),
                 child: JobList(
                   company: 'Facebook',
                   job: 'Data Scientist',
