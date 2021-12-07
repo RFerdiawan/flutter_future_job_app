@@ -48,3 +48,15 @@ TextStyle jobApplyTextStyle = GoogleFonts.poppins(
   fontSize: 20,
   fontWeight: FontWeight.w600,
 );
+
+TextStyle titleReqTextStyle = GoogleFonts.poppins(
+  color: Color(0xff272c2f),
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+);
+
+TextStyle reqTextStyle = GoogleFonts.poppins(
+  color: Color(0xff272c2f),
+  fontSize: 14,
+  fontWeight: FontWeight.w300,
+);

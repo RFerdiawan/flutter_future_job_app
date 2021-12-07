@@ -1,8 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:future_job/models/user_model.dart';
 import 'package:future_job/pages/home_page.dart';
+import 'package:future_job/providers/auth_provider.dart';
+import 'package:future_job/providers/user_provider.dart';
 import 'package:future_job/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class SigninPage extends StatefulWidget {
   @override
@@ -13,9 +17,23 @@ class _SigninPageState extends State<SigninPage> {
   bool isEmailValid = true;
 
   TextEditingController emailController = TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+
+    void showError(String message) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(message),
+        ),
+      );
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -106,6 +124,7 @@ class _SigninPageState extends State<SigninPage> {
                     height: 8,
                   ),
                   TextFormField(
+                    controller: passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       fillColor: Color(0xffF1F0F5),
@@ -128,19 +147,43 @@ class _SigninPageState extends State<SigninPage> {
               Container(
                 width: 450,
                 height: 50,
-                child: TextButton(
-                    style: TextButton.styleFrom(
-                        backgroundColor: Color(0xff4141a4),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(66))),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
-                    },
-                    child: Text(
-                      'Sign In',
-                      style: buttonTextStyle,
-                    )),
+                child: isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : TextButton(
+                        style: TextButton.styleFrom(
+                            backgroundColor: Color(0xff4141a4),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(66))),
+                        onPressed: () async {
+                          if (emailController.text.isEmpty ||
+                              passwordController.text.isEmpty) {
+                            showError('Semua field harus diisi');
+                          } else {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            UserModel user = await authProvider.Login(
+                                emailController.text, passwordController.text);
+
+                            setState(() {
+                              isLoading = false;
+                            });
+
+                            if (user == null) {
+                              showError('email atau password salah');
+                            } else {
+                              userProvider.user = user;
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, '/home', (route) => false);
+                            }
+                          }
+                        },
+                        child: Text(
+                          'Sign In',
+                          style: buttonTextStyle,
+                        )),
               ),
               Padding(
                 padding: const EdgeInsets.only(

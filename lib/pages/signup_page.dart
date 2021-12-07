@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:future_job/models/user_model.dart';
+import 'package:future_job/providers/auth_provider.dart';
+import 'package:future_job/providers/user_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../theme.dart';
 
@@ -10,9 +14,26 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   bool isUploaded = false;
+  TextEditingController nameController = TextEditingController(text: '');
+  TextEditingController emailController = TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
+  TextEditingController goalController = TextEditingController(text: '');
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+
+    void showError(String message) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(message),
+        ),
+      );
+    }
+
     Widget uploadedImages() {
       return Center(
         child: InkWell(
@@ -88,6 +109,7 @@ class _SignupPageState extends State<SignupPage> {
                     height: 8,
                   ),
                   TextFormField(
+                    controller: nameController,
                     decoration: InputDecoration(
                       fillColor: Color(0xfff1f0f5),
                       filled: true,
@@ -117,6 +139,7 @@ class _SignupPageState extends State<SignupPage> {
                     height: 8,
                   ),
                   TextFormField(
+                    controller: emailController,
                     decoration: InputDecoration(
                       fillColor: Color(0xfff1f0f5),
                       filled: true,
@@ -146,6 +169,7 @@ class _SignupPageState extends State<SignupPage> {
                     height: 8,
                   ),
                   TextFormField(
+                    controller: passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       fillColor: Color(0xfff1f0f5),
@@ -176,6 +200,7 @@ class _SignupPageState extends State<SignupPage> {
                     height: 8,
                   ),
                   TextFormField(
+                    controller: goalController,
                     decoration: InputDecoration(
                       fillColor: Color(0xfff1f0f5),
                       filled: true,
@@ -197,17 +222,49 @@ class _SignupPageState extends State<SignupPage> {
               Container(
                 width: 450,
                 height: 50,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                      backgroundColor: Color(0xff4141a4),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(66))),
-                  onPressed: () {},
-                  child: Text(
-                    'Sign Up',
-                    style: buttonTextStyle,
-                  ),
-                ),
+                child: isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : TextButton(
+                        style: TextButton.styleFrom(
+                            backgroundColor: Color(0xff4141a4),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(66))),
+                        onPressed: () async {
+                          if (nameController.text.isEmpty ||
+                              emailController.text.isEmpty ||
+                              passwordController.text.isEmpty ||
+                              goalController.text.isEmpty) {
+                            showError('semua field harus diisi');
+                          } else {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            UserModel user = await authProvider.register(
+                                emailController.text,
+                                passwordController.text,
+                                nameController.text,
+                                goalController.text);
+
+                            setState(() {
+                              isLoading = false;
+                            });
+
+                            if (user == null) {
+                              showError('email sudah terdaftar');
+                            } else {
+                              userProvider.user = user;
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, '/home', (route) => false);
+                            }
+                          }
+                        },
+                        child: Text(
+                          'Sign Up',
+                          style: buttonTextStyle,
+                        ),
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
