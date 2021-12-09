@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:future_job/models/category_model.dart';
+import 'package:future_job/models/job_model.dart';
+import 'package:future_job/providers/job_provider.dart';
 import 'package:future_job/theme.dart';
 import 'package:future_job/widgets/job_list.dart';
+import 'package:provider/provider.dart';
 
 class SecondHomepage extends StatelessWidget {
-  final String jobTitleHome;
-  final String imageUrl;
+  final CategoryModel category;
 
-  const SecondHomepage({Key key, this.jobTitleHome, this.imageUrl})
-      : super(key: key);
+  SecondHomepage(this.category);
   @override
   Widget build(BuildContext context) {
+    var jobProvider = Provider.of<JobProvider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -24,8 +28,8 @@ class SecondHomepage extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     height: 270,
-                    child: Image.asset(
-                      imageUrl,
+                    child: Image.network(
+                      category.imageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -33,7 +37,7 @@ class SecondHomepage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 178, left: 24),
                   child: Text(
-                    jobTitleHome,
+                    category.name,
                     style: jobTTextStyle,
                   ),
                 ),
@@ -55,33 +59,22 @@ class SecondHomepage extends StatelessWidget {
                     'Big Companies',
                     style: jobTextStyle,
                   ),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: JobList(
-                          company: 'Google',
-                          job: 'Front-End Developer',
-                          imageUrl: 'assets/google-icon.png',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: JobList(
-                          company: 'Instagram',
-                          job: 'UI Designer',
-                          imageUrl: 'assets/instagram-icon.png',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: JobList(
-                          company: 'Facebook',
-                          job: 'Data Scientist',
-                          imageUrl: 'assets/facebook-icon.png',
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    height: 16,
+                  ),
+                  FutureBuilder<List<JobModel>>(
+                    future: jobProvider.getJobsByCategory(category.name),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return Column(
+                          children:
+                              snapshot.data.map((job) => JobList(job)).toList(),
+                        );
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -95,33 +88,22 @@ class SecondHomepage extends StatelessWidget {
                     'New Startups',
                     style: jobTextStyle,
                   ),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: JobList(
-                          company: 'Google',
-                          job: 'Front-End Developer',
-                          imageUrl: 'assets/google-icon.png',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: JobList(
-                          company: 'Instagram',
-                          job: 'UI Designer',
-                          imageUrl: 'assets/instagram-icon.png',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: JobList(
-                          company: 'Facebook',
-                          job: 'Data Scientist',
-                          imageUrl: 'assets/facebook-icon.png',
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    height: 16,
+                  ),
+                  FutureBuilder<List<JobModel>>(
+                    future: jobProvider.getJobs(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return Column(
+                          children:
+                              snapshot.data.map((job) => JobList(job)).toList(),
+                        );
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
                   ),
                 ],
               ),

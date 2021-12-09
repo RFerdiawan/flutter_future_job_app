@@ -5,6 +5,8 @@ import 'package:future_job/pages/signin_page.dart';
 import 'package:future_job/pages/signup_page.dart';
 import 'package:future_job/pages/splash_page.dart';
 import 'package:future_job/providers/auth_provider.dart';
+import 'package:future_job/providers/category_provider.dart';
+import 'package:future_job/providers/job_provider.dart';
 import 'package:future_job/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +23,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<UserProvider>(
           create: (context) => UserProvider(),
         ),
+        ChangeNotifierProvider<CategoryProvider>(
+          create: (context) => CategoryProvider(),
+        ),
+        ChangeNotifierProvider<JobProvider>(
+          create: (context) => JobProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -30,7 +38,7 @@ class MyApp extends StatelessWidget {
           '/sign-in': (context) => SigninPage(),
           '/sign-up': (context) => SignupPage(),
           '/home': (context) => HomePage(),
-          '/secondhome': (context) => SecondHomepage(),
+          //'/secondhome': (context) => SecondHomepage(),
         },
       ),
     );

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:future_job/models/job_model.dart';
 import 'package:future_job/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 class DetailPage extends StatefulWidget {
-  // final String jobTitle;
-  // final String imageUrl;
-
-  // const DetailPage({Key key, this.jobTitle, this.jobIcon}) : super(key: key);
+  final JobModel job;
+  DetailPage(this.job);
   @override
   _DetailPageState createState() => _DetailPageState();
 }
@@ -99,19 +98,19 @@ class _DetailPageState extends State<DetailPage> {
                   height: 80,
                 ),
                 isApplied ? successAppliedMessages() : SizedBox(),
-                Image.asset(
-                  'assets/google-icon.png',
+                Image.network(
+                  widget.job.companyLogo,
                   height: 60,
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 Text(
-                  'Front-End Developer',
+                  widget.job.name,
                   style: jobApplyTextStyle,
                 ),
                 Text(
-                  'Google, Inc • Jakarta',
+                  '${widget.job.companyName} • ${widget.job.location}',
                   style: companyTextStyle,
                 ),
                 SizedBox(
@@ -130,44 +129,9 @@ class _DetailPageState extends State<DetailPage> {
                         height: 16,
                       ),
                       Column(
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/dot.png',
-                                height: 12,
-                                width: 12,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'Full-Time On Site',
-                                style: reqTextStyle,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/dot.png',
-                                height: 12,
-                                width: 12,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'Start at \$18,000 per month',
-                                style: reqTextStyle,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                          children: widget.job.about
+                              .map((text) => detailItem(text))
+                              .toList()),
                       SizedBox(
                         height: 30,
                       ),
@@ -179,62 +143,9 @@ class _DetailPageState extends State<DetailPage> {
                         height: 16,
                       ),
                       Column(
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/dot.png',
-                                height: 12,
-                                width: 12,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'Candidate must possess at least a \nBachelor\'s Degree.',
-                                style: reqTextStyle,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/dot.png',
-                                height: 12,
-                                width: 12,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'Able to use Microsoft Office and Google \nbased service.',
-                                style: reqTextStyle,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/dot.png',
-                                height: 12,
-                                width: 12,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'Have an excellent time management, \ngood at organized and details',
-                                style: reqTextStyle,
-                              ),
-                            ],
-                          ),
-                        ],
+                        children: widget.job.qualifications
+                            .map((text) => detailItem(text))
+                            .toList(),
                       ),
                       SizedBox(
                         height: 30,
@@ -247,43 +158,9 @@ class _DetailPageState extends State<DetailPage> {
                         height: 16,
                       ),
                       Column(
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/dot.png',
-                                height: 12,
-                                width: 12,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'Initiate and promote any programs, events, \ntraining, or activities.',
-                                style: reqTextStyle,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/dot.png',
-                                height: 12,
-                                width: 12,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'Assessing and anticipating needs and \ncollaborate with Division.',
-                                style: reqTextStyle,
-                              ),
-                            ],
-                          ),
-                        ],
+                        children: widget.job.responsibilities
+                            .map((text) => detailItem(text))
+                            .toList(),
                       ),
                       SizedBox(
                         height: 51,
@@ -316,4 +193,31 @@ class _DetailPageState extends State<DetailPage> {
       );
     });
   }
+}
+
+Widget detailItem(String text) {
+  return Container(
+    margin: EdgeInsets.only(
+      top: 16,
+    ),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          Icons.adjust,
+          color: primaryColor,
+          size: 12,
+        ),
+        SizedBox(
+          width: 8,
+        ),
+        Expanded(
+          child: Text(
+            text,
+            style: reqTextStyle,
+          ),
+        ),
+      ],
+    ),
+  );
 }

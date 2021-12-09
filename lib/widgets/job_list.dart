@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:future_job/models/job_model.dart';
 import 'package:future_job/pages/detail_page.dart';
 import 'package:future_job/theme.dart';
 
 class JobList extends StatelessWidget {
-  final String job;
-  final String company;
-  final String imageUrl;
+  final JobModel job;
 
-  const JobList({Key key, this.job, this.company, this.imageUrl})
-      : super(key: key);
+  const JobList(this.job);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DetailPage(
-                    // jobTitle: text,
-                    // imageUrl: imageUrl,
-                    )));
+            context, MaterialPageRoute(builder: (context) => DetailPage(job)));
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            imageUrl,
+          Image.network(
+            job.companyLogo,
             width: 44,
             height: 45,
           ),
@@ -38,11 +31,11 @@ class JobList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  job,
+                  job.name,
                   style: jobTextStyle,
                 ),
                 Text(
-                  company,
+                  job.companyName,
                   style: companyTextStyle,
                 ),
                 SizedBox(
